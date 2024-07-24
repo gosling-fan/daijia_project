@@ -42,5 +42,6 @@ public class DriverServiceImpl implements DriverService {
     @Override
     public DriverLoginVo getDriverLoginInfo(Long driverId) {
         return  driverInfoFeignClient.getDriverLoginInfo(driverId).getData();
+//        return  driverInfoFeignClient.getDriverLoginInfo().getData();
     }
 }
