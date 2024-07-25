@@ -50,6 +50,9 @@ public class CosServiceImpl implements CosService {
 
         //向存储桶中保存文件
         String fileType = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")); //文件后缀名
+        if(path==null){
+            path = "jndx";
+        }
         String uploadPath = "/driver/" + path + "/" + UUID.randomUUID().toString().replaceAll("-", "") + fileType;
         PutObjectRequest putObjectRequest = null;
         try {
