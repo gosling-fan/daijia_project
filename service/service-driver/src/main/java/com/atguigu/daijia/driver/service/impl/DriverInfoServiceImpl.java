@@ -174,4 +174,11 @@ public class DriverInfoServiceImpl extends ServiceImpl<DriverInfoMapper, DriverI
         }
         return true;
     }
+    //查询司机个性化信息
+    @Override
+    public DriverSet getDriverSet(Long driverId) {
+        LambdaQueryWrapper<DriverSet> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(DriverSet::getDriverId, driverId);
+        return driverSetMapper.selectOne(queryWrapper);
+    }
 }
