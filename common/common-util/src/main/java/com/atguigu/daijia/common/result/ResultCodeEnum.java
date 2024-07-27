@@ -45,6 +45,7 @@ public enum ResultCodeEnum {
     COUPON_EXPIRE( 250, "优惠券已过期"),
     COUPON_LESS( 250, "优惠券库存不足"),
     COUPON_USER_LIMIT( 250, "超出领取数量"),
+    XXL_JOB_ERROR(250,"xxl-job服务异常"),
     ;
 
     private Integer code;

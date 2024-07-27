@@ -1,6 +1,9 @@
 package com.atguigu.daijia.order.controller;
 
+import com.atguigu.daijia.common.login.GuiguLogin;
 import com.atguigu.daijia.common.result.Result;
+import com.atguigu.daijia.common.util.AuthContextHolder;
+import com.atguigu.daijia.model.form.customer.SubmitOrderForm;
 import com.atguigu.daijia.model.form.order.OrderInfoForm;
 import com.atguigu.daijia.order.service.OrderInfoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,5 +31,13 @@ public class OrderInfoController {
     public Result<Integer> getOrderStatus(@PathVariable Long orderId) {
         return Result.ok(orderInfoService.getOrderStatus(orderId));
     }
+    @Operation(summary = "乘客下单")
+    @GuiguLogin
+    @PostMapping("/submitOrder")
+    public Result<Long> submitOrder(@RequestBody SubmitOrderForm submitOrderForm) {
+        submitOrderForm.setCustomerId(AuthContextHolder.getUserId());
+        return Result.ok(orderInfoService.submitOrder(submitOrderForm));
+    }
+
 }
 

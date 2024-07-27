@@ -1,4 +1,4 @@
-package com.atguigu.daijia.dispatch.xxl.config.job;
+package com.atguigu.daijia.dispatch.xxl.job;
 
 import com.xxl.job.core.handler.annotation.XxlJob;
 import lombok.extern.slf4j.Slf4j;
