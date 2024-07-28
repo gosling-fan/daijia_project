@@ -11,5 +11,4 @@ public interface OrderInfoService extends IService<OrderInfo> {
 
     Integer getOrderStatus(Long orderId);
 
-    Long submitOrder(SubmitOrderForm submitOrderForm);
 }

@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 public class LocationServiceImpl implements LocationService {
     @Autowired
     private LocationFeignClient locationFeignClient;
+    @Autowired
     private DriverInfoFeignClient driverInfoFeignClient;
     @Override
     public Boolean updateDriverLocation(UpdateDriverLocationForm updateDriverLocationForm) {

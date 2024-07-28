@@ -17,6 +17,7 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderInfoFeignClient orderInfoFeignClient;
+    @Autowired
     private NewOrderFeignClient newOrderFeignClient;
 
     @Override

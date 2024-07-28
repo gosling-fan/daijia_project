@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,12 +40,12 @@ public class NewOrderServiceImpl implements NewOrderService {
     @Autowired
     private RedisTemplate redisTemplate;
     //开启任务调度
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Long addAndStartTask(NewOrderTaskVo newOrderTaskVo) {
-        //1.根据订单id，查询是否已开启任务调度
         OrderJob orderJob = orderJobMapper.selectOne(new LambdaQueryWrapper<OrderJob>().eq(OrderJob::getOrderId, newOrderTaskVo.getOrderId()));
-        //2.若未开启，则开启任务调度
         if(null == orderJob) {
+
             Long jobId = xxlJobClient.addAndStart("newOrderTaskHandler", "", "0 0/1 * * * ?", "新订单任务,订单id："+newOrderTaskVo.getOrderId());
 
             //记录订单与任务的关联信息
@@ -59,13 +60,14 @@ public class NewOrderServiceImpl implements NewOrderService {
 
     @Override
     public Boolean executeTask(long jobId) {
+        log.info("已开始执行任务调度");
         //获取任务参数
         OrderJob orderJob = orderJobMapper.selectOne(new LambdaQueryWrapper<OrderJob>().eq(OrderJob::getJobId, jobId));
         if(null == orderJob) {
             return true;
         }
         NewOrderTaskVo newOrderTaskVo = JSONObject.parseObject(orderJob.getParameter(), NewOrderTaskVo.class);
-
+        log.info("查询到job:"+orderJob.getJobId());
         //查询订单状态，如果该订单还在接单状态，继续执行；如果不在接单状态，则停止定时调度
         Integer orderStatus = orderInfoFeignClient.getOrderStatus(newOrderTaskVo.getOrderId()).getData();
         if(orderStatus.intValue() != OrderStatus.WAITING_ACCEPT.getStatus().intValue()) {
@@ -113,7 +115,7 @@ public class NewOrderServiceImpl implements NewOrderService {
         });
         return true;
     }
-
+    //查询司机订单信息
     @Override
     public List<NewOrderDataVo> findNewOrderQueueData(Long driverId) {
         List<NewOrderDataVo> list = new ArrayList<>();

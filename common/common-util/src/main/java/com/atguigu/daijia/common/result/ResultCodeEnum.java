@@ -8,7 +8,7 @@ import lombok.Getter;
  */
 @Getter
 public enum ResultCodeEnum {
-
+    FACE_FAIL(250,"人脸比对失败"),
     SUCCESS(200,"成功"),
     FAIL(201, "失败"),
     SERVICE_ERROR(2012, "服务异常"),

@@ -32,6 +32,7 @@ public class JobHandler {
         long startTime = System.currentTimeMillis();
         try {
             //执行任务
+
             newOrderService.executeTask(XxlJobHelper.getJobId());
 
             xxlJobLog.setStatus(1);//成功

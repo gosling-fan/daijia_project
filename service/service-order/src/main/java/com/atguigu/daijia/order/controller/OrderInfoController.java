@@ -31,13 +31,7 @@ public class OrderInfoController {
     public Result<Integer> getOrderStatus(@PathVariable Long orderId) {
         return Result.ok(orderInfoService.getOrderStatus(orderId));
     }
-    @Operation(summary = "乘客下单")
-    @GuiguLogin
-    @PostMapping("/submitOrder")
-    public Result<Long> submitOrder(@RequestBody SubmitOrderForm submitOrderForm) {
-        submitOrderForm.setCustomerId(AuthContextHolder.getUserId());
-        return Result.ok(orderInfoService.submitOrder(submitOrderForm));
-    }
+
 
 }
 
