@@ -6,6 +6,7 @@ import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
 import org.redisson.config.SingleServerConfig;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,13 +17,13 @@ import org.springframework.util.StringUtils;
  */
 @Data
 @Configuration
-@ConfigurationProperties("spring.data.redis")
+//@ConfigurationProperties("spring.data.redis")
 public class RedissonConfig {
-
+    @Value("192.168.10.3")
     private String host;
-
+    @Value("123456")
     private String password;
-
+    @Value("6379")
     private String port;
 
     private int timeout = 3000;
